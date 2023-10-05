@@ -46,20 +46,26 @@ def get_actors(movie: Tuple[str, str, int, List[str]]) -> List[str]:
 final = []
 
 def title_by_year(matches: List[str]) -> List[str]:
-    i = 0
-    for movie in movie_db:
+    # i = 0
+    # for movie in movie_db:
 
-        #print(get_year(movie_db))
-        if get_year(movie_db[i]) == int(matches[0]):
-            final.append(get_title(movie_db[i]))
-            #print(final)
+    #     #print(get_year(movie_db))
+    #     if get_year(movie_db[i]) == int(matches[0]):
+    #         final.append(get_title(movie_db[i]))
+    #         #print(final)
             
-        elif i == len(movie_db):
-            #print("test")
-            #print(final)
-            return final
-        i += 1
-    return final
+    #     elif i == len(movie_db):
+    #         #print("test")
+    #         #print(final)
+    #         return final
+    #     i += 1
+    # return final
+    results = []
+    for movie in movie_db:
+        if get_title(movie) == matches[0]:
+            results.append(get_year(movie))
+    # print(results)
+    return results
     
 
 
@@ -257,9 +263,15 @@ def search_pa_list(src: List[str]) -> List[str]:
         a list of answers. Will be ["I don't understand"] if it finds no matches and
         ["No answers"] if it finds a match but no answers
     """
-    pass
+    for pat, act in pa_list:
+        mat = match(pat, src)
+        if mat is not None:
+            answer = act(mat)
+            # print(answer)
+            return answer if answer else ["No answers"]   
+    return ["I don't understand"]
 
-
+        
 def query_loop() -> None:
     """The simple query loop. The try/except structure is to catch Ctrl-C or Ctrl-D
     characters and exit gracefully.
@@ -295,48 +307,48 @@ if __name__ == "__main__":
     assert isinstance(year_by_title(["jaws"]), list), "year_by_title not returning a list"
     assert isinstance(title_by_actor(["orson welles"]), list), "title_by_actor not returning a list"
     
-    # assert sorted(title_by_year(["1974"])) == sorted(
-    #     ["amarcord", "chinatown"]
-    # ), "failed title_by_year test"
-    # assert sorted(title_by_year_range(["1970", "1972"])) == sorted(
-    #     ["the godfather", "johnny got his gun"]
-    # ), "failed title_by_year_range test"
-    # assert sorted(title_before_year(["1950"])) == sorted(
-    #     ["casablanca", "citizen kane", "gone with the wind", "metropolis"]
-    # ), "failed title_before_year test"
-    # assert sorted(title_after_year(["1990"])) == sorted(
-    #     ["boyz n the hood", "dead again", "the crying game", "flirting", "malcolm x"]
-    # ), "failed title_after_year test"
-    # assert sorted(director_by_title(["jaws"])) == sorted(
-    #     ["steven spielberg"]
-    # ), "failed director_by_title test"
-    # assert sorted(title_by_director(["steven spielberg"])) == sorted(
-    #     ["jaws"]
-    # ), "failed title_by_director test"
-    # assert sorted(actors_by_title(["jaws"])) == sorted(
-    #     [
-    #         "roy scheider",
-    #         "robert shaw",
-    #         "richard dreyfuss",
-    #         "lorraine gary",
-    #         "murray hamilton",
-    #     ]
-    # ), "failed actors_by_title test"
-    # assert sorted(actors_by_title(["movie not in database"])) == [], "failed actors_by_title not in database test"
-    # assert sorted(year_by_title(["jaws"])) == sorted(
-    #     [1975]
-    # ), "failed year_by_title test"
-    # assert sorted(title_by_actor(["orson welles"])) == sorted(
-    #     ["citizen kane", "othello"]
-    # ), "failed title_by_actor test"
-    # assert sorted(search_pa_list(["hi", "there"])) == sorted(
-    #     ["I don't understand"]
-    # ), "failed search_pa_list test 1"
-    # assert sorted(search_pa_list(["who", "directed", "jaws"])) == sorted(
-    #     ["steven spielberg"]
-    # ), "failed search_pa_list test 2"
-    # assert sorted(
-    #     search_pa_list(["what", "movies", "were", "made", "in", "2020"])
-    # ) == sorted(["No answers"]), "failed search_pa_list test 3"
+    assert sorted(title_by_year(["1974"])) == sorted(
+        ["amarcord", "chinatown"]
+    ), "failed title_by_year test"
+    assert sorted(title_by_year_range(["1970", "1972"])) == sorted(
+        ["the godfather", "johnny got his gun"]
+    ), "failed title_by_year_range test"
+    assert sorted(title_before_year(["1950"])) == sorted(
+        ["casablanca", "citizen kane", "gone with the wind", "metropolis"]
+    ), "failed title_before_year test"
+    assert sorted(title_after_year(["1990"])) == sorted(
+        ["boyz n the hood", "dead again", "the crying game", "flirting", "malcolm x"]
+    ), "failed title_after_year test"
+    assert sorted(director_by_title(["jaws"])) == sorted(
+        ["steven spielberg"]
+    ), "failed director_by_title test"
+    assert sorted(title_by_director(["steven spielberg"])) == sorted(
+        ["jaws"]
+    ), "failed title_by_director test"
+    assert sorted(actors_by_title(["jaws"])) == sorted(
+        [
+            "roy scheider",
+            "robert shaw",
+            "richard dreyfuss",
+            "lorraine gary",
+            "murray hamilton",
+        ]
+    ), "failed actors_by_title test"
+    assert sorted(actors_by_title(["movie not in database"])) == [], "failed actors_by_title not in database test"
+    assert sorted(year_by_title(["jaws"])) == sorted(
+        [1975]
+    ), "failed year_by_title test"
+    assert sorted(title_by_actor(["orson welles"])) == sorted(
+        ["citizen kane", "othello"]
+    ), "failed title_by_actor test"
+    assert sorted(search_pa_list(["hi", "there"])) == sorted(
+        ["I don't understand"]
+    ), "failed search_pa_list test 1"
+    assert sorted(search_pa_list(["who", "directed", "jaws"])) == sorted(
+        ["steven spielberg"]
+    ), "failed search_pa_list test 2"
+    assert sorted(
+        search_pa_list(["what", "movies", "were", "made", "in", "2020"])
+    ) == sorted(["No answers"]), "failed search_pa_list test 3"
 
-    # print("All tests passed!")
+    print("All tests passed!")

@@ -434,5 +434,17 @@ movie_db: List[Tuple[str, str, int, List[str]]] = [
             "delroy lindo",
             "spike lee",
         ],
+    ),
+    (
+        "Happy Gilmore",
+        "Dennis Dugan",
+        1996,
+        [
+            "adam sandler",
+            "richard Kiel",
+            "bob barker",
+            "Julie Bowen",
+            "carl Weathers"
+        ]
     )
 ]
